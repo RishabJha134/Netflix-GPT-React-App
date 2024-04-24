@@ -1,9 +1,12 @@
 import React from 'react'
+import Body from './Components/Body'
 
 function App() {
   return (
     <>
-    <div className='text-3xl text-red-500'>Namastey Netflix GPT</div>
+    <div>
+      <Body></Body>
+    </div>
     </>
     
   )
