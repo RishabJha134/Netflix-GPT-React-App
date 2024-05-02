@@ -1,12 +1,22 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../Utils/Validate";
-import { createUserWithEmailAndPassword ,signInWithEmailAndPassword} from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth } from "../Utils/Firebase";
+// import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Utils/userSlice";
+import { USER_AVATAR } from "../Utils/Constants";
 
 function Login() {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  // const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function toggleSignInForm() {
     setIsSignInForm(!isSignInForm);
@@ -22,7 +32,7 @@ function Login() {
 
     const message = checkValidData(
       email.current.value,
-      password.current.value,
+      password.current.value
       // name.current.value
     );
     console.log(message);
@@ -44,22 +54,57 @@ function Login() {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          console.log(auth.currentUser);
           console.log(user);
+
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: USER_AVATAR,
+          })
+            .then(() => {
+              // Profile updated!
+              console.log(user);
+
+              // we are fetching the keys from the updated auth.currentUser information or from the updated value of users.:-
+              // here auth.currentUser is a updated value of user(line 55 me jo variable hai) so use the auth.currentUser.
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              // navigate("/browse");
+              // ...
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+              console.log(error);
+            });
+
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + "-" + errorMessage);
+
           // ..
         });
     } else {
-      signInWithEmailAndPassword(auth, email.current.value,
-        password.current.value,)
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user)
+          console.log(user);
+          // navigate("/browse");
           // ...
         })
         .catch((error) => {
