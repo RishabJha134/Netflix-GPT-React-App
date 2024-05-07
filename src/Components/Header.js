@@ -6,12 +6,17 @@ import { useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../Utils/userSlice";
-import { LOGO } from "../Utils/Constants";
+import { LOGO, SUPPORTED_LANGUAGES } from "../Utils/Constants";
+import { toggleGptSearchView } from "../Utils/gptSlice";
+import { changeLanguage } from "../Utils/configSlice";
+import GptSearch from "./GptSearch";
 
 function Header() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
   console.log(user);
   function handleSignOutClick() {
@@ -62,17 +67,47 @@ function Header() {
     return () => unsubscribe();
   }, []);
 
+  function handleGptSearchClick() {
+    // Toggle GPT search
+    dispatch(toggleGptSearchView());
+  }
+
+  function handleLanguageChange(e) {
+    console.log(e.target.value);
+
+    dispatch(changeLanguage(e.target.value));
+  }
+
   return (
     <>
       <div className="absolute z-[1] w-full px-8 py-2 bg-gradient-to-b from-black flex justify-between">
-        <img
-          className="w-44"
-          src={LOGO}
-          alt="logo"
-        />
+        <img className="w-44" src={LOGO} alt="logo" />
 
         {user && (
           <div className="flex items-center mr-4">
+            {showGptSearch && (
+              <select
+                className="p-2 m-2 bg-gray-900 text-zinc-200"
+                onChange={handleLanguageChange}
+              >
+                {SUPPORTED_LANGUAGES.map((item, index) => {
+                  return (
+                    <>
+                      <option key={item.identifier} value={item.identifier}>
+                        {item.name}
+                      </option>
+                    </>
+                  );
+                })}
+              </select>
+            )}
+
+            <button
+              onClick={handleGptSearchClick}
+              className="py-2 mx-3 px-3 my-2 font-bold text-zinc-200 bg-purple-500 rounded-lg"
+            >
+              {showGptSearch?"Homepage":"Gpt Search"}
+            </button>
             <img className="w-12 h-12" src={user.photoURL} alt="signin logo" />
             <button
               onClick={handleSignOutClick}
