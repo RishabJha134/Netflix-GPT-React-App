@@ -80,11 +80,11 @@ function Header() {
 
   return (
     <>
-      <div className="absolute z-[1] w-full px-8 py-2 bg-gradient-to-b from-black flex justify-between">
-        <img className="w-44" src={LOGO} alt="logo" />
+      <div className="absolute z-[1] w-full px-8 py-2 bg-gradient-to-b from-black flex flex-col  justify-between md:flex-row ">
+        <img className="w-44 mx-auto md:mx-0 " src={LOGO} alt="logo" />
 
         {user && (
-          <div className="flex items-center mr-4">
+          <div className="flex items-center justify-between  mr-4">
             {showGptSearch && (
               <select
                 className="p-2 m-2 bg-gray-900 text-zinc-200"
@@ -111,7 +111,7 @@ function Header() {
             <img className="w-12 h-12" src={user.photoURL} alt="signin logo" />
             <button
               onClick={handleSignOutClick}
-              className="bg-slate-700 font-bold shadow w-[6vw] h-[5vh] rounded ml-2 p-1 text-zinc-400"
+              className="md:bg-slate-700  font-bold shadow md:w-[6vw] h-[5vh] rounded ml-2 p-1 text-zinc-400"
             >
               Sign Out
             </button>
