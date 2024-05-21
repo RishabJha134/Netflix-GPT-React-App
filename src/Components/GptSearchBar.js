@@ -35,7 +35,7 @@ function GptSearchBar() {
       "only give me names of 5 movies, comma separated like the example result given ahead. Example Result: Gadar,Sholay,Don,Golmaal,Koi Mill Gaya";
 
     const gptResults = await axios({
-      url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBfpfGVv94iCN0Uy6kcl4e1zGfXNs4sWYo",
+      url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.REACT_APP_GEMINI_KEY}`,
       method:"post",
       data: {"contents":[{"parts":[{"text":gptQuery}]}]}
 

@@ -8,8 +8,7 @@ export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MWQ5NzkwZjk5MzUwYzUwNjdlOThmYmFmZmZiNmVjYSIsInN1YiI6IjY1ZTMwMTlkOWVlMGVmMDE4NTZmMmE4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.GBT2e_TNccziwjnjkIZdiJJnvr0U0j1TLQoAjW-QOxY",
+    Authorization: `Bearer ${process.env.REACT_APP_TMDB_KEY}`,
   },
 };
 
@@ -33,4 +32,5 @@ export const SUPPORTED_LANGUAGES = [
   },
 ];
 
-export const OPENAI_KEY = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBfpfGVv94iCN0Uy6kcl4e1zGfXNs4sWYo"
+export const OPENAI_KEY =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyBfpfGVv94iCN0Uy6kcl4e1zGfXNs4sWYo";
