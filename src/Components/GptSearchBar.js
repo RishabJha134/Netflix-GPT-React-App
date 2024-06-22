@@ -4,7 +4,7 @@ import lang from "../Utils/languageConstants";
 import openAi from "../Utils/openAi";
 import { API_OPTIONS } from "../Utils/Constants";
 import { addGptMovieResults } from "../Utils/gptSlice";
-import axios, { Axios } from "axios"
+import axios, { Axios } from "axios";
 
 function GptSearchBar() {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ function GptSearchBar() {
 
   // step1:-
   async function handleSearchButton() {
-    alert("");
+    alert("Confirm")
     console.log(searchText.current.value);
 
     const gptQuery =
@@ -36,12 +36,9 @@ function GptSearchBar() {
 
     const gptResults = await axios({
       url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.REACT_APP_GEMINI_KEY}`,
-      method:"post",
-      data: {"contents":[{"parts":[{"text":gptQuery}]}]}
-
+      method: "post",
+      data: { contents: [{ parts: [{ text: gptQuery }] }] },
     });
-
-    
 
     // console.log(gptResults.data.candidates[0].content.parts[0].text);
 
@@ -54,7 +51,8 @@ function GptSearchBar() {
 
     // console.log(gptResults.choices?.[0]?.message?.content);
 
-    const gptMovies = gptResults.data?.candidates[0]?.content?.parts[0]?.text.split(",");
+    const gptMovies =
+      gptResults.data?.candidates[0]?.content?.parts[0]?.text.split(",");
     console.log(gptMovies);
 
     // step3:-
